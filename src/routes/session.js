@@ -5,7 +5,7 @@ const router = express.Router();
 const UserModel = require('../Models/user');
 const SessionModel = require('../Models/session');
 
-
+//login
 router.post('/session', async (req, res) => {
   const { email, password } = req.body;
 
