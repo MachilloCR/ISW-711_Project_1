@@ -25,7 +25,7 @@ router.post('/session', async (req, res) => {
   //create a new session
   const session = new SessionModel.model;
 
-  const token = jwt.sign({ id: user._id }, process.env.MYSECRET);
+  const token = jwt.sign({ id: user._id , rol: user.role_id }, process.env.MYSECRET);
 
   session.token = token;
 

@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
-const { saveSession, getSession } = require('./controllers/sessionController');
+var cors = require('cors');
+
 
 //Routes imports
 const newsRoutes = require('./routes/new');
@@ -11,7 +12,7 @@ const userRoutes = require('./routes/user');
 const sourcesRoutes = require('./routes/source');
 const registerRoutes = require('./routes/register');
 const sessionRoutes = require('./routes/session');
-
+const categoryRoutes = require('./routes/category');
 //Mongo DB Connection
 const mongoose = require("mongoose");
 mongoose.connect(process.env.MONGODB_URI)
@@ -20,6 +21,9 @@ mongoose.connect(process.env.MONGODB_URI)
 
 //Listening Port
 const port = 8000;
+
+// cors
+app.use(cors());
 
 // ========  Middlewares  =====
 app.use(bodyParser.json());
@@ -57,6 +61,24 @@ app.use('/api', userRoutes);
 app.use('/api', newsRoutes);
 // Sources 
 app.use('/api', sourcesRoutes);
+
+// category
+app.use('/api', isAdmin,categoryRoutes);
+
+function isAdmin(req, res, next) {
+  
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  jwt.verify(token, process.env.MYSECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+    if (user.rol !== 1) {
+      return res.status(403).json({ message: 'Acceso denegado.' });
+    }
+    next();
+  });
+}
 
 
 

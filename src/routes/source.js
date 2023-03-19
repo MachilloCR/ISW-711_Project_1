@@ -6,6 +6,14 @@ let parser = new Parser();
 
 const SourceModel = require('../Models/source');
 
+
+
+router.get('/newsource/:id/process', (req, res) => {
+    const id = req.params.id;
+    // Aquí puedes escribir la lógica para procesar la fuente de noticias con el ID especificado
+    const message = `Procesando fuente de noticias con el ID ${id}`;
+    res.send(message);
+  });
 //Get source
 router.get('/sources', (req, res) => {
 
