@@ -7,6 +7,7 @@ var cors = require('cors');
 
 
 //Routes imports
+const publicRoutes = require('./routes/public');
 const newsRoutes = require('./routes/new');
 const userRoutes = require('./routes/user');
 const newsourcesRoutes = require('./routes/newsource');
@@ -33,7 +34,8 @@ app.use('/api', registerRoutes);
 
 //user session
 app.use('/api', sessionRoutes);
-
+// public 
+app.use('/api', publicRoutes);
 //auth
 app.use(function (req, res, next) {
   const authHeader = req.headers['authorization'];
