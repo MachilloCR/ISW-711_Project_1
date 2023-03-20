@@ -10,7 +10,6 @@ router.post('/news', (req, res) => {
 
 router.get('/news/:userId', (req, res) => {
     const userId = req.params.userId;
-
     
     feed.items.forEach(item => {
         console.log(item.title + ':' + item.link + "\n")

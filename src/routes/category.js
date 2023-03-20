@@ -101,7 +101,7 @@ router.delete('/category', (req, res) => {
                 console.log('error while queryting the category', err);
                 res.json({ error: "category doesnt exist" });
             }
-            source.delete(function (err) {
+            category.delete(function (err) {
                 if (err) {
                     res.status(422);
                     console.log('error while saving the category', err);

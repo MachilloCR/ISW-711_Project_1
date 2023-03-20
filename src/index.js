@@ -9,7 +9,7 @@ var cors = require('cors');
 //Routes imports
 const newsRoutes = require('./routes/new');
 const userRoutes = require('./routes/user');
-const sourcesRoutes = require('./routes/source');
+const newsourcesRoutes = require('./routes/newsource');
 const registerRoutes = require('./routes/register');
 const sessionRoutes = require('./routes/session');
 const categoryRoutes = require('./routes/category');
@@ -60,7 +60,7 @@ app.use('/api', userRoutes);
 // News 
 app.use('/api', newsRoutes);
 // Sources 
-app.use('/api', sourcesRoutes);
+app.use('/api', newsourcesRoutes);
 
 // category
 app.use('/api', isAdmin,categoryRoutes);

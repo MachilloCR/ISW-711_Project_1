@@ -2,12 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const source = new Schema({
-
-  id: { type: String },
   url: { type: String },
   name: { type: String },
-  category_id: { type: Number },
-  user_id: { type: Number }
+  category_id: { type: String },
+  user_id: { type: String }
 });
 
 const SourceModel = mongoose.model('Sources', source);
