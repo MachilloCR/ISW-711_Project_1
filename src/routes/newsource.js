@@ -5,13 +5,14 @@ let Parser = require('rss-parser');
 let parser = new Parser();
 
 const NewModel = require('../Models/new');
-const newsource = require('../Models/newsource');
+
 const NewSourceModel = require('../Models/newsource');
 
-
+//saves the news on the database
 router.post('/newsource/:id/process', async (req, res) => {
     try {
         const id = req.params.id;
+        await NewModel.model.deleteMany({ news_source_id: id });
         //search a newsource id that matches whit the id provided
         const newSourceResult = await NewSourceModel.model.findOne({ _id: id });
         if (!newSourceResult) {

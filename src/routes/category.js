@@ -23,7 +23,7 @@ router.get('/category', (req, res) => {
     }
 });
 //Create category
-router.post('/category', (req, res) => {
+router.post('/category', async (req, res) => {
 
     const category = new CategoryModel.model;
 
@@ -32,21 +32,30 @@ router.post('/category', (req, res) => {
     //Verify empty spaces
     if (category.name) {
         //if not empty spaces
-        category.save(function (err) {
-            if (err) {
-                res.status(422);
-                console.log('error while saving the category', err);
-                res.json({
-                    error: 'There was an error saving the category'
+        const catExists = await CategoryModel.model.findOne({ name: category.name });
+        if (!catExists) {
+            category.save(function (err) {
+                if (err) {
+                    res.status(422);
+                    console.log('error while saving the category', err);
+                    res.json({
+                        error: 'There was an error saving the category'
+                    });
+                }
+                //User Created Succefully
+                res.status(201);
+                res.header({
+                    'location': `http://localhost:8000/api/category/?id=${category.id}`
                 });
-            }
-            //User Created Succefully
-            res.status(201);
-            res.header({
-                'location': `http://localhost:8000/api/category/?id=${category.id}`
+                res.json(category);
             });
-            res.json(category);
-        });
+        } else {
+            res.status(422);
+            console.log('error while saving the category')
+            res.json({
+                error: 'This Category Already Exists'
+            });
+        }
     } else {
         res.status(422);
         console.log('error while saving the category')

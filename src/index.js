@@ -65,10 +65,10 @@ app.use('/api', newsRoutes);
 app.use('/api', newsourcesRoutes);
 
 // category
-app.use('/api', isAdmin,categoryRoutes);
+app.use('/api', isAdmin, categoryRoutes);
 
 function isAdmin(req, res, next) {
-  
+
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
   jwt.verify(token, process.env.MYSECRET, (err, user) => {
