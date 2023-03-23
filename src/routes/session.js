@@ -29,6 +29,7 @@ router.post('/session', async (req, res) => {
 
   session.token = token;
 
+  let id = user._id;
   //verify is this token already exist
 
   session.save(function (err) {
@@ -40,7 +41,7 @@ router.post('/session', async (req, res) => {
       });
     }
     //Session Created Succefully
-    res.status(201).json({ token });
+    res.status(201).json({ token, id });
   });
 
 

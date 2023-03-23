@@ -14,7 +14,7 @@ router.post('/newsource/:id/process', async (req, res) => {
         const id = req.params.id;
         await NewModel.model.deleteMany({ news_source_id: id });
         //search a newsource id that matches whit the id provided
-        const newSourceResult = await NewSourceModel.model.findOne({ _id: id });
+        const newSourceResult = await NewSourceModel.model.findOne({ user_id: id });
         if (!newSourceResult) {
             return res.status(404).send('New Source Not found');
         }
@@ -50,18 +50,31 @@ router.post('/newsource/:id/process', async (req, res) => {
 
 });
 
+router.get('/newsource/:id', async (req, res) => {
+    if (req.params.id) {
+        const id = req.params.id;
+        //search a newsource id that matches whit the id provided
+        const newSourceResult = await NewSourceModel.model.find({ user_id: id ,});
+        res.status(201).json(newSourceResult);
+    } else {
+        res.status(404);
+        res.json({ error: "Source doesnt exist" });
+    }
+
+
+});
 //Get source
 router.get('/newsource', (req, res) => {
     if (req.query && req.query.id) {
 
-        NewSourceModel.model.findById(req.query.id, function (err, category) {
+        NewSourceModel.model.findById(req.query.id, function (err, Source) {
             if (err) {
                 res.status(404);
                 console.log('error while queryting the Source', err);
                 res.json({ error: "Source doesnt exist" });
             }
             res.status(200); // OK
-            res.json(category);
+            res.json(Source);
         });
     } else {
         res.status(404);
